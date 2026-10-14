@@ -1,6 +1,10 @@
-import { Analytics } from "@vercel/analytics/next"
+import { inject } from "@vercel/analytics"
+
+inject()
 
 document.getElementById('year').textContent = new Date().getFullYear();
+
+
 
 // Cursor spotlight
 const glow = document.querySelector('.glow');
