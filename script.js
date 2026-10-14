@@ -1,3 +1,5 @@
+import { Analytics } from "@vercel/analytics/next"
+
 document.getElementById('year').textContent = new Date().getFullYear();
 
 // Cursor spotlight
