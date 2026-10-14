@@ -14,7 +14,9 @@
 html { scroll-behavior: smooth; }
 body {
   margin: 0; background: var(--bg); color: var(--text);
-  font: 16px/1.6 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+  font-size: 16px; line-height: 1.6;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 ::selection { background: rgba(163, 72, 15, .22); color: var(--strong); }
 a { color: inherit; text-decoration: none; }
@@ -34,7 +36,7 @@ h1, h2, h3, h4, p { margin: 0; }
   position: sticky; top: 0; height: 100vh; width: 42%; max-width: 420px; padding: 96px 0;
   display: flex; flex-direction: column; justify-content: space-between;
 }
-.side h1 { font-family: Fraunces, Georgia, serif; font-size: clamp(2.3rem, 4.8vw, 3.2rem); line-height: 1.08; font-weight: 600; letter-spacing: -.01em; color: var(--strong); }
+.side h1 { font-family: var(--font-fraunces), Georgia, serif; font-size: clamp(2.3rem, 4.8vw, 3.2rem); line-height: 1.08; font-weight: 600; letter-spacing: -.01em; color: var(--strong); }
 .side h2 { margin-top: 12px; font-size: 1.15rem; font-weight: 500; color: var(--strong); }
 .tagline { margin-top: 16px; max-width: 20rem; }
 
@@ -70,7 +72,7 @@ section p + p { margin-top: 16px; }
 .entry { display: grid; grid-template-columns: 110px 1fr; gap: 24px; transition: opacity .2s; }
 .entries:hover .entry:not(:hover) { opacity: .55; }
 .date { font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); padding-top: 4px; }
-.entry h4 { font-family: Fraunces, Georgia, serif; font-size: 1.05rem; font-weight: 500; line-height: 1.35; color: var(--strong); }
+.entry h4 { font-family: var(--font-fraunces), Georgia, serif; font-size: 1.05rem; font-weight: 500; line-height: 1.35; color: var(--strong); }
 .entry h4 a:hover { color: var(--accent); }
 .entry p { margin-top: 8px; font-size: .92rem; }
 .entry .stack { margin-top: 10px; font-size: .82rem; color: var(--faint); }
