@@ -1,13 +1,7 @@
-import { Fraunces, Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  variable: "--font-fraunces",
-});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,24 +9,30 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-display",
+});
+
 export const metadata = {
   title: "Kevin — Backend Developer",
   description:
-    "Personal website of Alex Morgan, a product designer and developer based in Berlin.",
+    "Personal website of Kevin, a backend developer based in Germany.",
   openGraph: {
-    title: "Alex Morgan — Product Designer & Developer",
-    description: "Designing and building thoughtful digital products.",
+    title: "Kevin — Backend Developer",
+    description: "Building useful digital products for users.",
     type: "website",
   },
 };
 
 export const viewport = {
-  themeColor: "#f4eee3",
+  themeColor: "#f6f1e7",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body>
         {children}
         <Analytics />
