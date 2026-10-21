@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const CHRONO24 = { name: "Chrono24", url: "https://www.chrono24.com/", icon: "/chrono24.png" };
-const HDI_GROUP = { name: "HDI Group", url: "https://www.hdi.global/", icon: "/hdi.png" };
+const HDI_GROUP = { name: "HDI Group", url: "https://www.hdi.de/", icon: "/hdi.png" };
 
 function CompanyLink({ company }) {
   return (
