@@ -2,6 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const CHRONO24 = { name: "Chrono24", url: "https://www.chrono24.com/", icon: "/chrono24.png" };
+const HDI_GROUP = { name: "HDI Group", url: "https://www.hdi.global/", icon: "/hdi.png" };
+
+function CompanyLink({ company }) {
+  return (
+    <a className="company-link" href={company.url} target="_blank" rel="noreferrer">
+      <img src={company.icon} alt="" width={16} height={16} />
+      {company.name}
+    </a>
+  );
+}
+
 const PROJECTS = [
   {
     title: "Lumen App Redesign",
@@ -35,25 +47,29 @@ const SKILLS = [
 const EXPERIENCE = [
   {
     date: "2025 — now",
-    title: "Java Developer · Chrono24",
+    title: "Java Developer",
+    company: CHRONO24,
     desc: "Building and maintaining features that strengthen customer loyalty to Chrono24.",
     stack: "Marketplace development · Domain Driven Design · Building maintainable software",
   },
   {
     date: "2022 — 2025",
-    title: "Junior Software Developer · HDI Group",
+    title: "Junior Software Developer",
+    company: HDI_GROUP,
     desc: "Development and implementation of automated BPMN processes to reduce manual activity and promote full automation.",
     stack: "Process automation · Test automation · Internal tools",
   },
   {
     date: "2020 — 2022",
-    title: "Business Analyst · HDI Group",
+    title: "Business Analyst",
+    company: HDI_GROUP,
     desc: "Business Analyst with focus in process automation for the automotive sector.",
     stack: "Requirements engineering · BPMN process modelling · Process optimization",
   },
   {
     date: "2017 — 2020",
-    title: "Dual Study Program in Business Informatics · HDI Group",
+    title: "Dual Study Program in Business Informatics",
+    company: HDI_GROUP,
     desc: "Software testing, development of a test management concept, software development with Java.",
     stack: "Software testing · Software development fundamentals",
   },
@@ -64,13 +80,28 @@ const EDUCATION = [
   { date: "2022", title: "Certificate", desc: "Camunda 7 - Platform for Java Developers" },
 ];
 
-const ABOUT_PARAGRAPHS = [
-  "I am a software developer with more than 3 years of experience developing modern applications. My focus is on backend development with Java.",
-  "Right now I'm a Java Developer at Chrono24, where we are building the world's leading watch marketplace.",
-  "I design scalable architectures and user-friendly interfaces that create innovative solutions and real value. Teamwork and continuous learning are particularly important to me.",
-  "Outside of work you'll find me mostly cooking or running. Doing multiple half marathons a year and currently training for a whole one! At least I try to...",
-  "I also like exploring new cities, countries, and cultures with my wife – especially the culinary highlights.",
-];
+const ABOUT = {
+  lead: "I'm a software developer with more than 3 years of experience building modern applications, focused on backend development with Java.",
+  sections: [
+    {
+      heading: "What I do",
+      paragraphs: [
+        <>
+          Right now I&apos;m a Java Developer at <CompanyLink company={CHRONO24} />, where we&apos;re building the
+          world&apos;s leading watch marketplace.
+        </>,
+        "I design scalable architectures and user-friendly interfaces that create innovative solutions and real value. Teamwork and continuous learning are particularly important to me.",
+      ],
+    },
+    {
+      heading: "Outside of work",
+      paragraphs: [
+        "You'll find me mostly cooking or running — doing multiple half marathons a year and currently training for a whole one! At least I try to...",
+        "I also like exploring new cities, countries, and cultures with my wife, especially the culinary highlights.",
+      ],
+    },
+  ],
+};
 
 function Panel({ panelKey, onClose }) {
   const closeRef = useRef(null);
@@ -97,9 +128,15 @@ function Panel({ panelKey, onClose }) {
         <h2 className="panel-title">{titles[panelKey]}</h2>
 
         {panelKey === "about" && (
-          <div className="panel-body">
-            {ABOUT_PARAGRAPHS.map((p, i) => (
-              <p key={i}>{p}</p>
+          <div className="panel-body about-body">
+            <p className="panel-lead">{ABOUT.lead}</p>
+            {ABOUT.sections.map((section) => (
+              <div key={section.heading} className="about-section">
+                <h3>{section.heading}</h3>
+                {section.paragraphs.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
             ))}
           </div>
         )}
@@ -141,7 +178,10 @@ function Panel({ panelKey, onClose }) {
                 <li key={e.title} className="exp-item">
                   <span className="date">{e.date}</span>
                   <div>
-                    <h3>{e.title}</h3>
+                    <h3>
+                      {e.title}
+                      {e.company && <> · <CompanyLink company={e.company} /></>}
+                    </h3>
                     <p>{e.desc}</p>
                     <p className="stack">{e.stack}</p>
                   </div>
@@ -179,11 +219,11 @@ function PhotoCard() {
       style={{ "--i": 0 }}
     >
       <div className={`flip-inner ${flipped ? "is-flipped" : ""}`}>
-        <div className="flip-face flip-front placeholder-photo placeholder-a">
-          <span>Photo placeholder</span>
+        <div className="flip-face flip-front">
+          <img className="flip-photo" src="/profile-1.jpg" alt="Kevin making a heart shape in front of a giant heart sculpture" />
         </div>
-        <div className="flip-face flip-back placeholder-photo placeholder-b">
-          <span>Say hi 👋</span>
+        <div className="flip-face flip-back">
+          <img className="flip-photo" src="/profile-2.jpg" alt="Kevin giving two thumbs up on a sunny street overlooking a town" />
         </div>
       </div>
       <span className="flip-icon" aria-hidden="true">
