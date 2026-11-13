@@ -59,18 +59,22 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .hl-lime { color: var(--lime-deep); }
 .hl-peach { color: var(--peach-deep); }
 
-.cover-footer { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+.cover-footer { position: relative; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
 
-.cover-contact { display: flex; flex-direction: column; gap: 8px; }
-.cover-contact-item { display: flex; align-items: center; gap: 8px; font-size: clamp(.78rem, 2.2vw, .88rem); }
+.cover-contact { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.cover-contact-item { display: flex; align-items: center; gap: 8px; font-size: clamp(.78rem, 2.2vw, .88rem); min-width: 0; }
 .cover-contact-letter {
   font-family: var(--font-serif), serif; font-weight: 600;
-  width: 18px; color: var(--faint);
+  width: 18px; color: var(--faint); flex: none;
 }
-.cover-contact-item a { font-weight: 600; transition: color .2s; }
+.cover-contact-item a {
+  font-weight: 600; transition: color .2s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 .cover-contact-item a:hover { color: var(--faint); }
 
 .cover-chevron {
+  position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
   width: 40px; height: 40px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   border: 1px solid rgba(22, 20, 15, .15);
@@ -316,8 +320,14 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--faint); outline
   :root { --border-w: 8px; }
   html { scroll-snap-type: y proximity; }
   .cover-slide { padding: calc(var(--border-w) + 10px); }
-  .cover-footer { flex-direction: column; align-items: flex-start; gap: 20px; }
-  .cover-photo-frame { width: 90px; }
+  .cover-statement { font-size: clamp(1.5rem, 7.5vw, 2.1rem); }
+  .cover-footer { gap: 10px; }
+  .cover-contact { gap: 5px; }
+  .cover-contact-item { font-size: .68rem; gap: 6px; }
+  .cover-contact-item a { max-width: 36vw; }
+  .cover-chevron { width: 32px; height: 32px; }
+  .cover-chevron svg { width: 15px; height: 15px; }
+  .cover-photo-frame { width: 64px; border-radius: 16px; }
   .bento-wrap { padding: calc(var(--border-w) + 10px); min-height: auto; }
   .bento-grid {
     flex: none;
