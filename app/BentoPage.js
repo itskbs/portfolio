@@ -1,6 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { FaJava } from "react-icons/fa6";
+import {
+  SiMysql,
+  SiTypescript,
+  SiAngular,
+  SiJavascript,
+  SiSpring,
+  SiSpringboot,
+  SiCamunda,
+  SiApachekafka,
+  SiJenkins,
+  SiDocker,
+  SiCloudfoundry,
+  SiJira,
+  SiFigma,
+  SiConfluence,
+  SiGit,
+} from "react-icons/si";
 
 const CHRONO24 = { name: "Chrono24", url: "https://www.chrono24.com/", icon: "/chrono24.png" };
 const HDI_GROUP = { name: "HDI Group", url: "https://www.hdi.de/", icon: "/hdi.png" };
@@ -11,6 +29,41 @@ function CompanyLink({ company }) {
       <img src={company.icon} alt="" width={16} height={16} />
       {company.name}
     </a>
+  );
+}
+
+const SKILL_ICONS = {
+  java: FaJava,
+  mysql: SiMysql,
+  typescript: SiTypescript,
+  angular: SiAngular,
+  javascript: SiJavascript,
+  spring: SiSpring,
+  springboot: SiSpringboot,
+  camunda: SiCamunda,
+  kafka: SiApachekafka,
+  jenkins: SiJenkins,
+  docker: SiDocker,
+  cloudfoundry: SiCloudfoundry,
+  jira: SiJira,
+  figma: SiFigma,
+  confluence: SiConfluence,
+  git: SiGit,
+};
+
+function SkillChip({ item, style }) {
+  const Icon = item.icon && SKILL_ICONS[item.icon];
+  return (
+    <li className="skill-chip" style={style}>
+      {Icon ? (
+        <Icon aria-hidden="true" />
+      ) : (
+        <span className="skill-chip-fallback" aria-hidden="true">
+          {item.mono}
+        </span>
+      )}
+      <span>{item.name}</span>
+    </li>
   );
 }
 
@@ -36,13 +89,51 @@ const PROJECTS = [
 ];
 
 const SKILLS = [
-  { label: "Languages", items: ["Java", "MySQL", "Oracle", "TypeScript", "Angular", "JavaScript"] },
   {
-    label: "Frameworks",
-    items: ["Spring", "Spring Boot", "SOAP/REST", "Camunda", "BPMN", "Apache Kafka", "Jenkins", "Docker", "CloudFoundry"],
+    key: "languages",
+    label: "Languages",
+    color: "lime",
+    items: [
+      { name: "Java", icon: "java", featured: true },
+      { name: "MySQL", icon: "mysql" },
+      { name: "Oracle", mono: "OR" },
+      { name: "TypeScript", icon: "typescript", featured: true },
+      { name: "Angular", icon: "angular" },
+      { name: "JavaScript", icon: "javascript" },
+    ],
   },
-  { label: "Working style", items: ["Jira", "Figma", "Confluence", "Scrum (SAFe)", "GIT", "Remote/Onsite"] },
+  {
+    key: "frameworks",
+    label: "Frameworks",
+    color: "peach",
+    items: [
+      { name: "Spring", icon: "spring" },
+      { name: "Spring Boot", icon: "springboot" },
+      { name: "SOAP/REST", mono: "SR" },
+      { name: "Camunda", icon: "camunda" },
+      { name: "BPMN", mono: "BP" },
+      { name: "Apache Kafka", icon: "kafka" },
+      { name: "Jenkins", icon: "jenkins" },
+      { name: "Docker", icon: "docker", featured: true },
+      { name: "CloudFoundry", icon: "cloudfoundry" },
+    ],
+  },
+  {
+    key: "working-style",
+    label: "Working style",
+    color: "pink",
+    items: [
+      { name: "Jira", icon: "jira" },
+      { name: "Figma", icon: "figma", featured: true },
+      { name: "Confluence", icon: "confluence" },
+      { name: "Scrum (SAFe)", mono: "SA" },
+      { name: "GIT", icon: "git" },
+      { name: "Remote/Onsite", mono: "R/O" },
+    ],
+  },
 ];
+
+const FEATURED_SKILLS = SKILLS.flatMap((g) => g.items).filter((i) => i.featured);
 
 const EXPERIENCE = [
   {
@@ -156,20 +247,25 @@ function Panel({ panelKey, onClose }) {
           </ol>
         )}
 
-        {panelKey === "skills" && (
-          <div className="panel-body">
-            {SKILLS.map((group) => (
-              <div key={group.label} className="skill-group">
-                <h3>{group.label}</h3>
-                <ul className="chips">
-                  {group.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
+        {panelKey === "skills" && (() => {
+          let chipIndex = 0;
+          return (
+            <div className="panel-body">
+              <div className="skill-groups">
+                {SKILLS.map((group, groupIdx) => (
+                  <div key={group.key} className={`skill-card card-${group.color}`} style={{ "--i": groupIdx }}>
+                    <h3>{group.label}</h3>
+                    <ul className="chips">
+                      {group.items.map((item) => (
+                        <SkillChip key={item.name} item={item} style={{ "--i": chipIndex++ }} />
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          );
+        })()}
 
         {panelKey === "experience" && (
           <div className="panel-body">
@@ -274,7 +370,6 @@ export default function BentoPage() {
 
   return (
     <>
-      <div className="frame" aria-hidden="true"></div>
       <div className="bento-wrap">
         <div className="bento-grid" ref={gridRef}>
           <PhotoCard />
@@ -299,6 +394,16 @@ export default function BentoPage() {
           >
             <h2>Skills</h2>
             <p>Java &amp; Spring backend work, plus the tools that keep teams shipping.</p>
+            <div className="skill-teaser" aria-hidden="true">
+              {FEATURED_SKILLS.map((item) => {
+                const Icon = SKILL_ICONS[item.icon];
+                return (
+                  <span key={item.name} className="skill-teaser-icon">
+                    <Icon />
+                  </span>
+                );
+              })}
+            </div>
           </button>
 
           <div className="bento-card no-tilt card-white area-contact" style={{ "--i": 3 }}>
