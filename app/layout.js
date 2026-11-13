@@ -1,4 +1,4 @@
-import { Inter, Space_Grotesk, Fraunces } from "next/font/google";
+import { Inter, Space_Grotesk, Playfair_Display } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
@@ -15,7 +15,7 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
 });
 
-const fraunces = Fraunces({
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
   weight: ["500", "600"],
   variable: "--font-serif",
@@ -38,7 +38,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${fraunces.variable}`}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${playfairDisplay.variable}`}>
       <body>
         {children}
         <Analytics />
