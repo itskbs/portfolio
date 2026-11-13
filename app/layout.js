@@ -1,4 +1,4 @@
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Space_Grotesk, Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
@@ -13,6 +13,12 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
   variable: "--font-display",
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  variable: "--font-serif",
 });
 
 export const metadata = {
@@ -32,7 +38,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${fraunces.variable}`}>
       <body>
         {children}
         <Analytics />

@@ -8,10 +8,13 @@
   --white: #fffdf8;
   --faint: #847c6c;
   --border-w: 14px;
+  --lime-deep: #5c7a32;
+  --peach-deep: #b15c35;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; height: 100%; }
+html { scroll-behavior: smooth; height: 100%; scroll-snap-type: y mandatory; }
+.snap-slide { scroll-snap-align: start; scroll-snap-stop: always; }
 body {
   margin: 0; height: 100%; background: var(--cream); color: var(--ink);
   font-family: var(--font-inter), system-ui, sans-serif;
@@ -28,6 +31,66 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .frame {
   position: fixed; inset: 0; z-index: 50; pointer-events: none;
   border: var(--border-w) solid var(--ink);
+}
+
+/* Cover slide */
+.cover-slide {
+  box-sizing: border-box;
+  min-height: 100vh; min-height: 100dvh;
+  padding: calc(var(--border-w) + 16px);
+  display: flex; flex-direction: column; justify-content: space-between;
+  container-type: inline-size;
+}
+
+.cover-name {
+  font-family: var(--font-serif), var(--font-display), serif;
+  font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.1;
+}
+.cover-subtitle { margin-top: 4px; font-size: clamp(.85rem, 2.4vw, 1rem); color: var(--faint); }
+
+.cover-statement {
+  align-self: center;
+  text-align: center;
+  font-family: var(--font-display), var(--font-inter), sans-serif;
+  font-weight: 700; letter-spacing: -.01em; line-height: 1.15;
+  font-size: clamp(1.8rem, 6vw, 4rem);
+  max-width: 18ch;
+}
+.hl-lime { color: var(--lime-deep); }
+.hl-peach { color: var(--peach-deep); }
+
+.cover-footer { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+
+.cover-contact { display: flex; flex-direction: column; gap: 8px; }
+.cover-contact-item { display: flex; align-items: center; gap: 8px; font-size: clamp(.78rem, 2.2vw, .88rem); }
+.cover-contact-letter {
+  font-family: var(--font-serif), serif; font-weight: 600;
+  width: 18px; color: var(--faint);
+}
+.cover-contact-item a { font-weight: 600; transition: color .2s; }
+.cover-contact-item a:hover { color: var(--faint); }
+
+.cover-chevron {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(22, 20, 15, .15);
+  flex: none;
+}
+.cover-chevron svg { width: 18px; height: 18px; animation: chevron-bounce 1.6s ease-in-out infinite; }
+
+@keyframes chevron-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+.cover-photo-frame {
+  aspect-ratio: 1 / 1; width: clamp(110px, 18cqw, 220px);
+  border-radius: 24px; overflow: hidden; flex: none;
+  border: 1px solid rgba(22, 20, 15, .08);
+}
+.cover-photo-img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: grayscale(1) contrast(1.05);
 }
 
 .bento-wrap {
@@ -190,10 +253,54 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .work-item p, .exp-item p { margin-top: 6px; font-size: .92rem; }
 .stack { margin-top: 8px; font-size: .82rem; color: var(--faint); }
 
-.skill-group + .skill-group { margin-top: 24px; }
-.skill-group h3 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px; }
+.skill-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+.skill-card {
+  container-type: inline-size;
+  border-radius: 20px;
+  padding: 20px 20px 22px;
+  opacity: 0;
+  animation: card-in .45s ease forwards;
+  animation-delay: calc(var(--i) * 90ms);
+  transition: box-shadow .2s ease;
+}
+.skill-card:hover { box-shadow: 0 10px 24px rgba(22, 20, 15, .12); }
+.skill-card h3 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px; }
+
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chips li { font-size: .78rem; font-weight: 600; padding: 7px 13px; border-radius: 999px; background: var(--lime); font-family: var(--font-inter); }
+.skill-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .78rem; font-weight: 600;
+  padding: 7px 13px 7px 10px; border-radius: 999px;
+  background: rgba(255, 253, 248, .65);
+  border: 1px solid rgba(22, 20, 15, .08);
+  font-family: var(--font-inter);
+  opacity: 0;
+  animation: chip-in .4s ease forwards;
+  animation-delay: calc(220ms + var(--i) * 35ms);
+  transition: transform .15s ease, background .15s ease, color .15s ease;
+}
+.skill-chip:hover { transform: translateY(-2px) scale(1.05); background: var(--ink); color: var(--white); }
+.skill-chip svg, .skill-chip-fallback { width: 14px; height: 14px; flex: none; }
+.skill-chip-fallback {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: rgba(22, 20, 15, .12);
+  font-size: .48rem; font-weight: 700;
+}
+.skill-chip:hover .skill-chip-fallback { background: rgba(255, 253, 248, .25); }
+
+@keyframes chip-in {
+  from { opacity: 0; transform: translateY(6px) scale(.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.skill-teaser { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.skill-teaser-icon {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--white); border: 1px solid rgba(22, 20, 15, .1);
+  display: flex; align-items: center; justify-content: center; flex: none;
+}
+.skill-teaser-icon svg { width: 15px; height: 15px; }
 
 .edu-heading { margin: 32px 0 16px; font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
 
@@ -202,11 +309,15 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--faint); outline
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { animation: none !important; transition: none !important; }
-  .bento-card { opacity: 1; }
+  .bento-card, .skill-card, .skill-chip { opacity: 1; }
 }
 
 @media (max-width: 860px) {
   :root { --border-w: 8px; }
+  html { scroll-snap-type: y proximity; }
+  .cover-slide { padding: calc(var(--border-w) + 10px); }
+  .cover-footer { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .cover-photo-frame { width: 90px; }
   .bento-wrap { padding: calc(var(--border-w) + 10px); min-height: auto; }
   .bento-grid {
     flex: none;
@@ -219,4 +330,5 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--faint); outline
   .bento-card { height: auto; min-height: 200px; }
   .panel { width: 100%; padding: 40px 24px 48px; max-height: 88vh; }
   .work-item, .exp-item { grid-template-columns: 1fr; gap: 6px; }
+  .skill-groups { grid-template-columns: 1fr; gap: 12px; }
 }
